@@ -1,0 +1,10 @@
+NameVirtualHost *:443
+
+<VirtualHost *:443>
+ ServerName website.com www.website.com
+ DocumentRoot /var/www/vhosts/website.com
+ SSLEngine on
+ SSLCertificateFile {{ pem_file }}
+ SSLCertificateKeyFile {{ key_file }}
+</VirtualHost>
+
