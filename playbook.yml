@@ -2,7 +2,7 @@
 - hosts: webserver.avinash.com
   become: yes
   vars_files:
-       - "vars/default.yml"
+       - "default.yml"
   gather_facts: no
   tasks:
 
