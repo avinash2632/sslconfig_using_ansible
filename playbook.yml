@@ -1,0 +1,52 @@
+---
+- hosts: webserver.avinash.com
+  become: yes
+  vars_files:
+       - "vars/default.yml"
+  gather_facts: no
+  tasks:
+
+   - name: "Installing Apache"
+     yum:
+      name: httpd
+      state: present
+
+   - name: "making apache start"
+     service:
+       name: httpd
+       state: started
+
+   - name: "making httpd enabled for startup"
+     service:
+       name: httpd
+       enabled: yes
+
+
+   - name: "copying the private key pem"
+     copy:
+       src: /etc/ssl/certs/apache-selfsigned.pem
+       dest: "/etc/ssl/certs/"
+       owner: root
+       group: root
+       mode: 0644
+       remote_src: false
+
+   - name: "copying the key file"
+     copy:
+       src: "/etc/ssl/private/apache-selfsigned.key"
+       dest: "/etc/ssl/private/"
+       owner: root
+       group: root
+       mode: 0644
+       remote_src: false
+
+
+   - name: "copying the template"
+     template:
+
+       src: templates/ssl.conf
+       dest: /etc/httpd/conf.d/
+       owner: root
+       group: root
+       mode: 0644
+       remote_src: false
